@@ -1,0 +1,135 @@
+fragment image on UploadFile {
+  id
+  alternativeText
+  url
+}
+fragment cover on Post {
+  cover {
+    ...image
+  }
+}
+fragment tag on Tag {
+  id
+  displayName
+  slug
+}
+
+fragment tags on Post {
+  tags {
+    ...tag
+  }
+}
+
+fragment author on Author {
+  id
+  displayName
+  slug
+}
+
+fragment authorPost on Post {
+  author {
+    ...author
+  }
+}
+
+fragment category on Category {
+  id
+  displayName
+  slug
+}
+
+fragment categories on Post {
+  categories {
+    ...category
+  }
+}
+
+fragment menuLink on ComponentMenuMenuLink {
+  link
+  text
+  newTab
+}
+
+fragment post on Post {
+  id
+  slug
+  title
+	excerpt
+  content
+  allowComments
+  ...cover
+  ...categories
+  ...authorPost
+  ...tags
+
+}
+
+fragment settings on Settings {
+    id
+    blogName
+    blogDescription
+    logo {
+      ...image
+    }
+
+    menuLink {
+			...menuLink
+    }
+    text
+
+}
+
+query GET_SETTINGS {
+  setting {
+    ...settings
+  }
+
+  posts {
+    ...post
+	}
+}
+
+query GET_POST_BY_SLUG($postSlug: String!) {
+  posts(where: {
+      slug: $postSlug
+  }) {
+    ...post
+	}
+}
+
+query GET_POSTS_BY_AUTHOR($authorSlug: String!) {
+  posts(where: {
+    author: {
+      slug: $authorSlug
+    }
+  }) {
+    ...post
+	}
+}
+
+query GET_POSTS_BY_CATEGORY($categorySlug: String!) {
+  posts(where: {
+   categories: {
+    slug: $categorySlug
+  }
+  }) {
+    ...post
+	}
+}
+
+query GET_POSTS_BY_TAG($tagSlug: String!) {
+  posts(where: {
+  tags: {
+    slug: $tagSlug
+  }
+  }) {
+    ...post
+	}
+}
+
+{
+  "authorSlug": "felipe-de-lima",
+  "categorySlug": "java-script",
+  "tagSlug": "use-state",
+  "postSlug": "um-post-qualuqer",
+}
