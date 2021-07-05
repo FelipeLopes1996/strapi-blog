@@ -26,3 +26,4 @@ export default strapi => {
 
   return strapi.registerPlugin(plugin);
 };
+ 

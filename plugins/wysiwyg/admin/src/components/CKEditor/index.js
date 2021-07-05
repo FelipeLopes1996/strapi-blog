@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { CKEditor } from '@ckeditor/ckeditor5-react';
-import ClassicEditor from '../../../../../../ckeditor5-custom/build/ckeditor';
+import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import styled from 'styled-components';
 
 const Wrapper = styled.div`
@@ -14,80 +14,34 @@ const Wrapper = styled.div`
 `;
 
 const configuration = {
-  toolbar: {
-    items: [
-      'heading',
-      '|',
-      'bold',
-      'italic',
-      'link',
-      'bulletedList',
-      'numberedList',
-      '|',
-      // 'indent',
-      // 'outdent',
-      '|',
-      // 'imageUpload',
-      'blockQuote',
-      'insertTable',
-      'mediaEmbed',
-      'undo',
-      'redo',
-      'alignment',
-      'code',
-      'codeBlock',
-      'fontBackgroundColor',
-      'fontColor',
-      // 'fontSize',
-      // 'fontFamily',
-      'horizontalLine',
-      'htmlEmbed',
-      // 'imageInsert',
-      'removeFormat',
-      'strikethrough',
-      'subscript',
-      'superscript',
-      'underline'
-    ]
-  },
-  language: 'pt-br',
-  image: {
-    toolbar: [
-      'imageTextAlternative',
-      'imageStyle:full',
-      'imageStyle:side',
-      'linkImage'
-    ]
-  },
-  table: {
-    contentToolbar: [
-      'tableColumn',
-      'tableRow',
-      'mergeTableCells',
-      'tableCellProperties',
-      'tableProperties'
-    ]
-  },
+  toolbar: [
+    'heading',
+    '|',
+    'bold',
+    'italic',
+    'link',
+    'bulletedList',
+    'numberedList',
+    '|',
+    'indent',
+    'outdent',
+    '|',
+    'blockQuote',
+    'insertTable',
+    'mediaEmbed',
+    'undo',
+    'redo',
+  ],
 };
 
-
 const Editor = ({ onChange, name, value }) => {
-  const [isReady, setIsReady] = React.useState(false);
-  
-  React.useEffect(() => {
-    setIsReady(true);
-  }, []);
-
-  if (!isReady) {
-    return <p>Loading editor...</p>;
-  }
-
   return (
     <Wrapper>
       <CKEditor
         editor={ClassicEditor}
         config={configuration}
         data={value}
+        onReady={editor => editor.setData(value)}
         onChange={(event, editor) => {
           const data = editor.getData();
           onChange({ target: { name, value: data } });
